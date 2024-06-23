@@ -8,10 +8,12 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  Put,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { Categories } from './schemas/categories.schema';
 import { CategoriesDto } from './dto/categories.dto';
+import { UpdateCategoryDto } from './dto/update-categories';
 
 @Controller('categories')
 export class CategoriesController {
@@ -29,20 +31,20 @@ export class CategoriesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoriesService.findOne(+id);
+  getById(@Param('id') id: string): Promise<Categories> {
+    return this.categoriesService.getById(id);
   }
 
-  // @Patch(':id')
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() updateCategoryDto: UpdateCategoryDto,
-  // ) {
-  //   return this.categoriesService.update(+id, updateCategoryDto);
-  // }
+  @Put(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateCategoryDto: UpdateCategoryDto,
+  ) {
+    return this.categoriesService.update(id, updateCategoryDto);
+  }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.categoriesService.remove(+id);
+    return this.categoriesService.remove(id);
   }
 }

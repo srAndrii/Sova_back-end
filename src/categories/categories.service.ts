@@ -24,10 +24,16 @@ export class CategoriesService {
     return this.categoriesModel.findById(id);
   }
 
-  async update(id: string, categoriesDto: CategoriesDto): Promise<Categories> {
-    return this.categoriesModel.findByIdAndUpdate(id, UpdateCategoryDto, {
-      new: true,
-    });
+  async update(
+    id: string,
+    categoriesDto: UpdateCategoryDto,
+  ): Promise<Categories> {
+    const updatedCategory = await this.categoriesModel
+      .findByIdAndUpdate(id, categoriesDto, {
+        new: true,
+      })
+      .exec();
+    return updatedCategory;
   }
 
   async remove(id: string): Promise<Categories> {
